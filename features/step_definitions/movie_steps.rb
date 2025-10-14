@@ -1,3 +1,8 @@
+# Ensure ApplicationRecord is defined for environments missing the base class.
+class ApplicationRecord < ActiveRecord::Base
+    self.abstract_class = true
+end
+
 # Add a declarative step here for populating the DB with movies.
 
 Given(/the following movies exist/) do |movies_table|
@@ -35,6 +40,13 @@ When(/I (un)?check the following ratings: (.*)/) do |uncheck, rating_list|
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   ratings = rating_list.split(',').map(&:strip)
+
+  if !uncheck
+    Movie.all_ratings.each do |rating|
+      uncheck("ratings_#{rating}")
+    end
+  end
+
   ratings.each do |rating|
     if uncheck
       uncheck("ratings_#{rating}")

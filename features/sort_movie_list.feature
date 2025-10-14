@@ -5,7 +5,7 @@ Feature: display list of movies sorted by different criteria
   I want to see movies sorted by title or release date
 
 Background: movies have been added to database
-Fhave
+
   Given the following movies exist:
   | title                   | rating | release_date |
   | Aladdin                 | G      | 25-Nov-1992  |
